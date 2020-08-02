@@ -1,0 +1,1 @@
+<button type="submit" title="Tambah" class="btn bg-navy btn-flat submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>"><i class="glyphicon glyphicon-plus"></i></button>

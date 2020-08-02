@@ -12,19 +12,19 @@ class KejuruansTableSeeder extends Seeder
     public function run()
     {
         \App\Kejuruan::create([
-            'name' => 'Elektronika',
+            'name' => strtoupper('Elektronika'),
         ]);
 
         \App\Kejuruan::create([
-            'name' => 'Refrigration',
+            'name' => strtoupper('Refrigration'),
         ]);
 
         \App\Kejuruan::create([
-            'name' => 'Tek. Informasi dan Komunikasi',
+            'name' => strtoupper('Tek. Informasi dan Komunikasi'),
         ]);
 
         \App\Kejuruan::create([
-            'name' => 'Pariwisata',
+            'name' => strtoupper('Pariwisata'),
         ]);
     }
 }

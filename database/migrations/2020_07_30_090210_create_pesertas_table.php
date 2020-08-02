@@ -14,9 +14,13 @@ class CreatePesertasTable extends Migration
     public function up()
     {
         Schema::create('pesertas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->unsignedInteger('score')->nullable()->default(0);
+            $table->unsignedInteger('durasi')->nullable();
+            $table->string('status')->default('pending');
+            $table->string('token');
             $table->unsignedInteger('program_id');
             $table->timestamps();
             

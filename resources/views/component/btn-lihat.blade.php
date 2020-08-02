@@ -1,0 +1,1 @@
+<a href="{{$link}}" title="Detail" class="btn btn-info btn-xs" target="_self" rel="noopener noreferrer"><i class="glyphicon glyphicon-search"></i></a>

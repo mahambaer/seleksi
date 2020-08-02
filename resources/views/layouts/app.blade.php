@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('/plugins/dataTables.bootstrap.css')}}"/>
 </head>
 <body>
     <div id="app">
@@ -46,6 +47,8 @@
                             {{-- <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li> --}}
                         @else
+                            <li><a href="{{url('soal')}}">{{"Soal Seleksi"}}</a></li>
+                            <li><a href="{{url('program')}}">{{"Program Pelatihan"}}</a></li>
                             <li><a href="#">{{"Peserta Seleksi"}}</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -77,5 +80,15 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script type="text/javascript" src="{{asset('/plugins/jquery.dataTables.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/plugins/dataTables.bootstrap.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/plugins/dataTables.responsive.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('/plugins/ckeditor/ckeditor.js')}}"></script>
+    <script>
+        $('.remove').on('click', function(){
+            return confirm('Apakah Anda yakin?')
+        })
+    </script>
+    @yield('script')
 </body>
 </html>

@@ -14,10 +14,10 @@ class CreateJawabansTable extends Migration
     public function up()
     {
         Schema::create('jawabans', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->text('link');
             $table->string('status');
-            $table->unsignedInteger('soal_id');
+            $table->unsignedBigInteger('soal_id');
             $table->timestamps();
 
             $table->foreign('soal_id')->references('id')->on('soals')->onDelete('cascade');

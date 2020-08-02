@@ -14,12 +14,14 @@ class CreateSoalsTable extends Migration
     public function up()
     {
         Schema::create('soals', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->text('link');
-            $table->unsignedInteger('kejuruan_id');
+            $table->unsignedInteger('kejuruan_id')->nullable();
+            $table->unsignedInteger('program_id')->nullable();
             $table->timestamps();
             
             $table->foreign('kejuruan_id')->references('id')->on('kejuruans')->onDelete('cascade');
+            $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
         });
     }
 

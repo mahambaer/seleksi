@@ -1,0 +1,1 @@
+<button type="submit" class="btn btn-primary btn-flat pull-right submit" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Processing...">{{ trans('form.submit') }}</button>

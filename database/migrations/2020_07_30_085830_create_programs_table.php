@@ -22,7 +22,8 @@ class CreateProgramsTable extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('durasi');
+            $table->unsignedInteger('durasi')->default(60);
+            $table->string('status')->default('close');
             $table->unsignedInteger('kejuruan_id');
             $table->timestamps();
 
