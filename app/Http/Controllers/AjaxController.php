@@ -10,10 +10,11 @@ class AjaxController extends Controller
 {
     public function getScore(Jawaban $jawaban)
     {
-        $score = null;
-        if($jawaban->status == 'benar')
+        $score = $jawaban->status;
+        $count = $jawaban->soal->jawabans->count();
+        if($jawaban->tipe == "score")
         {
-            $score = 1;
+            $score /= $count;
         }
         return response()->json(['score' => $score]);
     }

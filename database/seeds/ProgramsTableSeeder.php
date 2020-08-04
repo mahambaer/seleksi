@@ -112,11 +112,5 @@ class ProgramsTableSeeder extends Seeder
             'name' => strtoupper('Teknisi Telepon Seluler'),
             'kejuruan_id' => $kejuruan->id
         ]);
-        
-        $kejuruan = \App\Kejuruan::where('name', strtoupper('Elektronika'))->first();
-        \App\Program::create([
-            'name' => strtoupper('TEKNISI TELEPON SELULER (PERANGKAT LUNAK)'),
-            'kejuruan_id' => $kejuruan->id
-        ]);
     }
 }

@@ -39,10 +39,10 @@ return [
     'soal_durasi' => 'Durasi Pengerjaan',
     'soal_pertanyaan' => 'Pertanyaan',
     'soal_praktek' => '*hanya untuk file .pdf, .doc, atau .docx',
-    'jawaban_1' => 'Pilihan 1',
-    'jawaban_2' => 'Pilihan 2',
-    'jawaban_3' => 'Pilihan 3',
-    'jawaban_4' => 'Pilihan 4',
     'jawaban' => 'Contoh Jawaban',
     'submit' => 'SUBMIT',
+    'jumlah_pilihan' => 'Jumlah Pilihan',
+    'tipe_pilihan' => 'Tipe Penilaian Pilihan',
+    'tipe_score' => 'Score',
+    'tipe_benar' => 'Benar-Salah'
 ];

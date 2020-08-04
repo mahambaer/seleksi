@@ -15,12 +15,12 @@ class CreatePesertasTable extends Migration
     {
         Schema::create('pesertas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('name', 191);
+            $table->string('email', 191)->unique();
             $table->unsignedInteger('score')->nullable()->default(0);
             $table->unsignedInteger('durasi')->nullable()->default(0);
-            $table->string('status')->default('pending');
-            $table->string('token');
+            $table->string('status', 191)->default('pending');
+            $table->string('token', 100);
             $table->unsignedInteger('program_id');
             $table->timestamps();
             

@@ -15,15 +15,15 @@ class CreateProgramsTable extends Migration
     {
         Schema::create('kejuruans', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 191);
             $table->timestamps();
         });
 
         Schema::create('programs', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 191);
             $table->unsignedInteger('durasi')->default(60);
-            $table->string('status')->default('close');
+            $table->string('status', 50)->default('close');
             $table->unsignedInteger('kejuruan_id');
             $table->timestamps();
 

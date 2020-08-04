@@ -12,7 +12,7 @@ class Jawaban extends Model
      * @var array
      */
     protected $fillable = [
-        'link', 'status', 'soal_id'
+        'link', 'status', 'soal_id', 'tipe'
     ];
 
     public function soal()

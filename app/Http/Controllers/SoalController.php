@@ -59,20 +59,10 @@ class SoalController extends Controller
     public function storeElektronika(Request $request)
     {
         $messages = [
-            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
-            'status.required' => 'Pilihan yang Benar harus dipilih',
-            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
-            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
-            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
-            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor'
         ];
         $rules = [
-            'pertanyaan'   => 'required',
-            'status'   => 'required',
-            'pilihan1'   => 'required',
-            'pilihan2'   => 'required',
-            'pilihan3'   => 'required',
-            'pilihan4'   => 'required',
+            'pertanyaan'   => 'required'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails())
@@ -95,49 +85,139 @@ class SoalController extends Controller
             $program->soals()->attach($soal->id);
         }
         
-        $nama_file = $soal->id.'a.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
+        if(isset($request->pilihan1))
+        {
+            $nama_file = $soal->id.'a.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan1' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score1,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+            Jawaban::create($fields);
+        }
 
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
-        Jawaban::create($fields);
-
-        $nama_file = $soal->id.'b.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
-        Jawaban::create($fields);
+        if(isset($request->pilihan2))
+        {
+            $nama_file = $soal->id.'b.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan2' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score2,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'c.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
-        Jawaban::create($fields);
+        if(isset($request->pilihan3))
+        {
+            $nama_file = $soal->id.'c.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan3' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score3,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'d.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
-        Jawaban::create($fields);
+        if(isset($request->pilihan4))
+        {
+            $nama_file = $soal->id.'d.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan4' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score4,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+            Jawaban::create($fields);
+        }
+        
+        if(isset($request->pilihan5))
+        {
+            $nama_file = $soal->id.'e.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan5' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score5,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan5);
+            Jawaban::create($fields);
+        }
 
         return back();
     }
@@ -164,20 +244,10 @@ class SoalController extends Controller
     public function storeRefrigration(Request $request)
     {
         $messages = [
-            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
-            'status.required' => 'Pilihan yang Benar harus dipilih',
-            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
-            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
-            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
-            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor'
         ];
         $rules = [
-            'pertanyaan'   => 'required',
-            'status'   => 'required',
-            'pilihan1'   => 'required',
-            'pilihan2'   => 'required',
-            'pilihan3'   => 'required',
-            'pilihan4'   => 'required',
+            'pertanyaan'   => 'required'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails())
@@ -200,49 +270,139 @@ class SoalController extends Controller
             $program->soals()->attach($soal->id);
         }
         
-        $nama_file = $soal->id.'a.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
+        if(isset($request->pilihan1))
+        {
+            $nama_file = $soal->id.'a.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan1' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score1,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+            Jawaban::create($fields);
+        }
 
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
-        Jawaban::create($fields);
-
-        $nama_file = $soal->id.'b.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
-        Jawaban::create($fields);
+        if(isset($request->pilihan2))
+        {
+            $nama_file = $soal->id.'b.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan2' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score2,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'c.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
-        Jawaban::create($fields);
+        if(isset($request->pilihan3))
+        {
+            $nama_file = $soal->id.'c.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan3' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score3,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'d.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
-        Jawaban::create($fields);
+        if(isset($request->pilihan4))
+        {
+            $nama_file = $soal->id.'d.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan4' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score4,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+            Jawaban::create($fields);
+        }
+        
+        if(isset($request->pilihan5))
+        {
+            $nama_file = $soal->id.'e.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan5' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score5,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan5);
+            Jawaban::create($fields);
+        }
 
         return back();
     }
@@ -269,20 +429,10 @@ class SoalController extends Controller
     public function storeTik(Request $request)
     {
         $messages = [
-            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
-            'status.required' => 'Pilihan yang Benar harus dipilih',
-            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
-            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
-            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
-            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor'
         ];
         $rules = [
-            'pertanyaan'   => 'required',
-            'status'   => 'required',
-            'pilihan1'   => 'required',
-            'pilihan2'   => 'required',
-            'pilihan3'   => 'required',
-            'pilihan4'   => 'required',
+            'pertanyaan'   => 'required'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails())
@@ -305,49 +455,139 @@ class SoalController extends Controller
             $program->soals()->attach($soal->id);
         }
         
-        $nama_file = $soal->id.'a.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
+        if(isset($request->pilihan1))
+        {
+            $nama_file = $soal->id.'a.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan1' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score1,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+            Jawaban::create($fields);
+        }
 
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
-        Jawaban::create($fields);
-
-        $nama_file = $soal->id.'b.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
-        Jawaban::create($fields);
+        if(isset($request->pilihan2))
+        {
+            $nama_file = $soal->id.'b.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan2' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score2,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'c.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
-        Jawaban::create($fields);
+        if(isset($request->pilihan3))
+        {
+            $nama_file = $soal->id.'c.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan3' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score3,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'d.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
-        Jawaban::create($fields);
+        if(isset($request->pilihan4))
+        {
+            $nama_file = $soal->id.'d.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan4' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score4,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+            Jawaban::create($fields);
+        }
+        
+        if(isset($request->pilihan5))
+        {
+            $nama_file = $soal->id.'e.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan5' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score5,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan5);
+            Jawaban::create($fields);
+        }
 
         return back();
     }
@@ -374,20 +614,10 @@ class SoalController extends Controller
     public function storePariwisata(Request $request)
     {
         $messages = [
-            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
-            'status.required' => 'Pilihan yang Benar harus dipilih',
-            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
-            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
-            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
-            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor'
         ];
         $rules = [
-            'pertanyaan'   => 'required',
-            'status'   => 'required',
-            'pilihan1'   => 'required',
-            'pilihan2'   => 'required',
-            'pilihan3'   => 'required',
-            'pilihan4'   => 'required',
+            'pertanyaan'   => 'required'
         ];
         $validator = Validator::make($request->all(), $rules, $messages);
         if($validator->fails())
@@ -410,49 +640,139 @@ class SoalController extends Controller
             $program->soals()->attach($soal->id);
         }
         
-        $nama_file = $soal->id.'a.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
+        if(isset($request->pilihan1))
+        {
+            $nama_file = $soal->id.'a.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan1' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score1,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+            Jawaban::create($fields);
+        }
 
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
-        Jawaban::create($fields);
-
-        $nama_file = $soal->id.'b.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
-        Jawaban::create($fields);
+        if(isset($request->pilihan2))
+        {
+            $nama_file = $soal->id.'b.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan2' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score2,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'c.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
-        Jawaban::create($fields);
+        if(isset($request->pilihan3))
+        {
+            $nama_file = $soal->id.'c.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan3' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score3,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+            Jawaban::create($fields);
+        }
         
-        $nama_file = $soal->id.'d.txt';
-        $folder = 'uploads/jawaban';
-        $fields = [
-            'link'     => $folder.'/'.$nama_file,
-            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
-            'soal_id' => $soal->id
-        ];
-
-        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
-        Jawaban::create($fields);
+        if(isset($request->pilihan4))
+        {
+            $nama_file = $soal->id.'d.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan4' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score4,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+            Jawaban::create($fields);
+        }
+        
+        if(isset($request->pilihan5))
+        {
+            $nama_file = $soal->id.'e.txt';
+            $folder = 'uploads/jawaban';
+            if($request->tipe == 'benar')
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->status == 'pilihan5' ? 1 : 0,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'benar'
+                ];
+            }
+            else
+            {
+                $fields = [
+                    'link'     => $folder.'/'.$nama_file,
+                    'status' => $request->score5,
+                    'soal_id' => $soal->id,
+                    'tipe' => 'score'
+                ];
+            }
+    
+            Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan5);
+            Jawaban::create($fields);
+        }
 
         return back();
     }

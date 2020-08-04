@@ -81,10 +81,16 @@ $(document).ready(function () {
     $('#kirim').on('click', function () {
         $('#exampleModalCenter').modal('show')
         var id = $('#id').val()
+        // var filteredArray = score.filter(function (element) {
+        //     return element != null && element != ''
+        // })
+        var total = 0
         var filteredArray = score.filter(function (element) {
             return element != null && element != ''
         })
-        var total = filteredArray.length
+        $.each(filteredArray, function(){
+            total += this
+        })
         var result = (total/jumlahSoal)*100
         clearInterval(myTimer)
         sendScore(id, result)

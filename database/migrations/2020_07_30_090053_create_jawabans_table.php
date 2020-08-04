@@ -16,7 +16,8 @@ class CreateJawabansTable extends Migration
         Schema::create('jawabans', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('link');
-            $table->string('status');
+            $table->string('tipe', 50);
+            $table->unsignedInteger('status');
             $table->unsignedBigInteger('soal_id');
             $table->timestamps();
 

@@ -45,7 +45,7 @@ Route::post('seleksi', 'SeleksiController@confirmEmail')->name('confirm');
 // Route::get('seleksi', function(){
 //     return view('seleksi')->with('peserta');
 // });
-//Route::get('mulai/{token}', 'SeleksiCOntroller@showMulai')->name('mulai');
-Route::get('mulai/{email}', 'SeleksiCOntroller@showMulai')->name('mulai');
+//Route::get('mulai/{token}', 'SeleksiController@showMulai')->name('mulai');
+Route::get('mulai/{email}', 'SeleksiController@showMulai')->name('mulai');
 Route::post('getscore/{jawaban}', 'AjaxController@getScore')->name('getscore');
 Route::post('sendscore/{peserta}', 'AjaxController@sendScore')->name('sendscore');
