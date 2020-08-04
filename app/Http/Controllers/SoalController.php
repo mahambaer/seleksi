@@ -89,7 +89,7 @@ class SoalController extends Controller
         Storage::disk('public')->put($folder.'/'.$nama_file, $request->pertanyaan);
         $soal = Soal::create($fields);
 
-        $programs = Program::where('kejuruan_id', $soal->id)->get();
+        $programs = Program::where('kejuruan_id', $soal->kejuruan_id)->get();
         foreach($programs as $program)
         {
             $program->soals()->attach($soal->id);
@@ -143,6 +143,321 @@ class SoalController extends Controller
     }
 
     public function destroyElektronika(Soal $soal)
+    {
+        if(Storage::disk('public')->exists($soal->link));
+        {
+            Storage::disk('public')->delete($soal->link);   
+        }
+        foreach($soal->jawabans as $jawaban)
+        {
+            if(Storage::disk('public')->exists($jawaban->link))
+            {
+                Storage::disk('public')->delete($jawaban->link);
+            }
+            $jawaban->delete();
+        }
+        $soal->programs()->detach();
+        $soal->delete();
+        return back();
+    }
+
+    public function storeRefrigration(Request $request)
+    {
+        $messages = [
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
+            'status.required' => 'Pilihan yang Benar harus dipilih',
+            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
+            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
+            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
+            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+        ];
+        $rules = [
+            'pertanyaan'   => 'required',
+            'status'   => 'required',
+            'pilihan1'   => 'required',
+            'pilihan2'   => 'required',
+            'pilihan3'   => 'required',
+            'pilihan4'   => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        $nama_file = 'refrigration_'.time().'.txt';
+        $folder = 'uploads/soal';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'kejuruan_id' => Kejuruan::where('name', strtoupper('refrigration'))->first()->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pertanyaan);
+        $soal = Soal::create($fields);
+
+        $programs = Program::where('kejuruan_id', $soal->kejuruan_id)->get();
+        foreach($programs as $program)
+        {
+            $program->soals()->attach($soal->id);
+        }
+        
+        $nama_file = $soal->id.'a.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+        Jawaban::create($fields);
+
+        $nama_file = $soal->id.'b.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'c.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'d.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+        Jawaban::create($fields);
+
+        return back();
+    }
+
+    public function destroyRefrigration(Soal $soal)
+    {
+        if(Storage::disk('public')->exists($soal->link));
+        {
+            Storage::disk('public')->delete($soal->link);   
+        }
+        foreach($soal->jawabans as $jawaban)
+        {
+            if(Storage::disk('public')->exists($jawaban->link))
+            {
+                Storage::disk('public')->delete($jawaban->link);
+            }
+            $jawaban->delete();
+        }
+        $soal->programs()->detach();
+        $soal->delete();
+        return back();
+    }
+
+    public function storeTik(Request $request)
+    {
+        $messages = [
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
+            'status.required' => 'Pilihan yang Benar harus dipilih',
+            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
+            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
+            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
+            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+        ];
+        $rules = [
+            'pertanyaan'   => 'required',
+            'status'   => 'required',
+            'pilihan1'   => 'required',
+            'pilihan2'   => 'required',
+            'pilihan3'   => 'required',
+            'pilihan4'   => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        $nama_file = 'tik_'.time().'.txt';
+        $folder = 'uploads/soal';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'kejuruan_id' => Kejuruan::where('name', strtoupper('Tek. Informasi dan Komunikasi'))->first()->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pertanyaan);
+        $soal = Soal::create($fields);
+
+        $programs = Program::where('kejuruan_id', $soal->kejuruan_id)->get();
+        foreach($programs as $program)
+        {
+            $program->soals()->attach($soal->id);
+        }
+        
+        $nama_file = $soal->id.'a.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+        Jawaban::create($fields);
+
+        $nama_file = $soal->id.'b.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'c.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'d.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+        Jawaban::create($fields);
+
+        return back();
+    }
+
+    public function destroyTik(Soal $soal)
+    {
+        if(Storage::disk('public')->exists($soal->link));
+        {
+            Storage::disk('public')->delete($soal->link);   
+        }
+        foreach($soal->jawabans as $jawaban)
+        {
+            if(Storage::disk('public')->exists($jawaban->link))
+            {
+                Storage::disk('public')->delete($jawaban->link);
+            }
+            $jawaban->delete();
+        }
+        $soal->programs()->detach();
+        $soal->delete();
+        return back();
+    }
+
+    public function storePariwisata(Request $request)
+    {
+        $messages = [
+            'pertanyaan.required' => 'Pertanyaan harus diisi melalui editor',
+            'status.required' => 'Pilihan yang Benar harus dipilih',
+            'pilihan1.required' => 'Pilihan 1 harus diisi melalui editor',
+            'pilihan2.required' => 'Pilihan 2 harus diisi melalui editor',
+            'pilihan3.required' => 'Pilihan 3 harus diisi melalui editor',
+            'pilihan4.required' => 'Pilihan 4 harus diisi melalui editor',
+        ];
+        $rules = [
+            'pertanyaan'   => 'required',
+            'status'   => 'required',
+            'pilihan1'   => 'required',
+            'pilihan2'   => 'required',
+            'pilihan3'   => 'required',
+            'pilihan4'   => 'required',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if($validator->fails())
+        {
+            return back()->withErrors($validator)->withInput();
+        }
+        $nama_file = 'pariwisata_'.time().'.txt';
+        $folder = 'uploads/soal';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'kejuruan_id' => Kejuruan::where('name', strtoupper('pariwisata'))->first()->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pertanyaan);
+        $soal = Soal::create($fields);
+
+        $programs = Program::where('kejuruan_id', $soal->kejuruan_id)->get();
+        foreach($programs as $program)
+        {
+            $program->soals()->attach($soal->id);
+        }
+        
+        $nama_file = $soal->id.'a.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan1' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan1);
+        Jawaban::create($fields);
+
+        $nama_file = $soal->id.'b.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan2' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan2);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'c.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan3' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan3);
+        Jawaban::create($fields);
+        
+        $nama_file = $soal->id.'d.txt';
+        $folder = 'uploads/jawaban';
+        $fields = [
+            'link'     => $folder.'/'.$nama_file,
+            'status' => $request->status == 'pilihan4' ? 'benar' : 'salah',
+            'soal_id' => $soal->id
+        ];
+
+        Storage::disk('public')->put($folder.'/'.$nama_file, $request->pilihan4);
+        Jawaban::create($fields);
+
+        return back();
+    }
+
+    public function destroyPariwisata(Soal $soal)
     {
         if(Storage::disk('public')->exists($soal->link));
         {

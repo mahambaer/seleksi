@@ -18,7 +18,7 @@ class CreatePesertasTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->unsignedInteger('score')->nullable()->default(0);
-            $table->unsignedInteger('durasi')->nullable();
+            $table->unsignedInteger('durasi')->nullable()->default(0);
             $table->string('status')->default('pending');
             $table->string('token');
             $table->unsignedInteger('program_id');

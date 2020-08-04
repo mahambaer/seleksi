@@ -13,9 +13,62 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{{asset('/plugins/dataTables.bootstrap.css')}}"/>
+    <style>
+    .hollow-dots-spinner, .hollow-dots-spinner * {
+      box-sizing: border-box;
+    }
+    
+    .hollow-dots-spinner {
+      height: 15px;
+      width: calc(30px * 3);
+    }
+    
+    .hollow-dots-spinner .dot {
+      width: 15px;
+      height: 15px;
+      margin: 0 calc(15px / 2);
+      border: calc(15px / 5) solid #ff1d5e;
+      border-radius: 50%;
+      float: left;
+      transform: scale(0);
+      animation: hollow-dots-spinner-animation 1000ms ease infinite 0ms;
+    }
+    
+    .hollow-dots-spinner .dot:nth-child(1) {
+      animation-delay: calc(300ms * 1);
+    }
+    
+    .hollow-dots-spinner .dot:nth-child(2) {
+      animation-delay: calc(300ms * 2);
+    }
+    
+    .hollow-dots-spinner .dot:nth-child(3) {
+      animation-delay: calc(300ms * 3);
+    
+    }
+    
+    @keyframes hollow-dots-spinner-animation {
+      50% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+    </style>
 </head>
 <body>
     <div id="app">
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog" role="document" style="position: absolute; top: 50%; width: 100%">
+            <div class="hollow-dots-spinner" style="margin: 0 auto">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+          </div>
+        </div>
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
@@ -49,7 +102,7 @@
                         @else
                             <li><a href="{{url('soal')}}">{{"Soal Seleksi"}}</a></li>
                             <li><a href="{{url('program')}}">{{"Program Pelatihan"}}</a></li>
-                            <li><a href="#">{{"Peserta Seleksi"}}</a></li>
+                            <li><a href="{{url('peserta')}}">{{"Peserta Seleksi"}}</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>

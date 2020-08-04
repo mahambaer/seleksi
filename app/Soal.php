@@ -30,8 +30,8 @@ class Soal extends Model
         return $this->belongsToMany('App\Program');
     }
 
-    public function program()
-    {
-        return $this->belongsTo('App\Program');
-    }
+    // public function program()
+    // {
+    //     return $this->belongsTo('App\Program');
+    // }
 }

@@ -74,16 +74,6 @@
                 <div class="panel-heading">Soal Elektronika : {{$soals->count()}} Soal</div>
 
                 <div class="panel-body">
-                    @if (count($errors) > 0)
-                        <div class="alert alert-danger">
-                            <strong>Whoops!</strong> Terdapat kesalahan pada form yang Anda isi<br><br>
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <div class="panel-group" id="soals">
                         @php
                             $index = 1;
@@ -213,9 +203,6 @@
                 var id = button.data('soal')
                 var element = document.getElementById(id)
                 element.scrollIntoView()
-            })
-            $('.ok').on('mouseover', function(event){
-                event.preventDefault()
             })
         })
     </script>
